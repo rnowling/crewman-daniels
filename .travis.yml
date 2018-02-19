@@ -12,5 +12,4 @@ before_install:
   - docker build -t rnowling/crewman-daniels .
 
 script:
-  - true
-#  - docker run -t rnowling/asaph bats tests/*.bats
+  - docker run -t rnowling/crewman-daniels make test
