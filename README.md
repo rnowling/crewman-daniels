@@ -1,4 +1,6 @@
 # crewman-daniels
+Build status: [![build status](https://travis-ci.org/rnowling/crewman-daniels.svg?branch=master)](https://travis-ci.org/rnowling/crewman-daniels)
+
 [Crewman Daniels](http://memory-alpha.wikia.com/wiki/Daniels_(Crewman)) is a character from [Star Trek: Enterprise](https://en.wikipedia.org/wiki/Star_Trek:_Enterprise) who travels or transports the crew to various points in time to assist them.
 
 <img src="https://vignette.wikia.nocookie.net/memoryalpha/images/8/89/Daniels2.jpg/revision/latest?cb=20100806165630&path-prefix=en" width="100px" height="120px">
