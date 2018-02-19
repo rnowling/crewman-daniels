@@ -1,0 +1,16 @@
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+python:
+  - "2.7"
+
+before_install:
+  - docker build -t rnowling/crewman-daniels .
+
+script:
+  - true
+#  - docker run -t rnowling/asaph bats tests/*.bats

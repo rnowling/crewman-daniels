@@ -1,0 +1,5 @@
+scikit-learn>=0.18
+matplotlib>=2.0
+mdtraj>=1.9.0
+msmbuilder>=3.8.0
+
