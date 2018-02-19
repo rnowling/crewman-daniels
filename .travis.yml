@@ -8,6 +8,8 @@ services:
 python:
   - "2.7"
 
+install: true
+  
 before_install:
   - docker build -t rnowling/crewman-daniels .
 
