@@ -33,11 +33,12 @@ RUN git clone https://github.com/sstephenson/bats.git
 WORKDIR /opt/bats
 RUN ./install.sh /usr/local
 
-COPY . /opt/crewman-daniels
-WORKDIR /opt/crewman-daniels
 # workaround pip trying to install everything at once
 # instead of in-order and failing
 RUN pip install mdtraj
+    
+COPY . /opt/crewman-daniels
+WORKDIR /opt/crewman-daniels
 RUN pip install --requirement /opt/crewman-daniels/requirements.txt
 ENV PATH="/opt/crewman-daniels/bin:${PATH}"
 

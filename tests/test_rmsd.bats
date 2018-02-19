@@ -82,6 +82,17 @@ load setup_helper
     [ -e "${TEST_TEMP_DIRNAME}/rmsd.tsv" ]
 }
 
+@test "Calculate rmsd (tsv, rmsd backbone and resid 2)" {
+    run ${BATS_TEST_DIRNAME}/../bin/rmsd \
+        --timestep 0.01 \
+        --pdb-file ${PDB_FILE} \
+        --input-traj ${DCD_FILE} \
+        --rmsd-atom-select "backbone and (resid 2 to 4)" \
+	    --output-tsv ${TEST_TEMP_DIRNAME}/rmsd.tsv
+
+    [ "$status" -eq 0 ]
+    [ -e "${TEST_TEMP_DIRNAME}/rmsd.tsv" ]
+}
 
 # @test "Calculate likelihood_ratio_test (categories, class probabilities intercept, adjusted)" {
 #     run ${BATS_TEST_DIRNAME}/../bin/likelihood_ratio_test \
