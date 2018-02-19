@@ -52,13 +52,15 @@ def plot_rmsd(args):
                     atom_indices=rmsd_atoms,
                     ref_atom_indices=rmsd_atoms)
 
+    print rmsds.shape, traj.n_frames
+
     frame_time = np.arange(1, traj.n_frames + 1) * args.timestep
     if args.figure_fl:
         plt.clf()
         plt.plot(frame_time, rmsds)
         plt.xlabel("Time (ns)", fontsize=16)
         plt.ylabel("RMSD (nm)", fontsize=16)
-        plt.xlim([0, traj.n_frames + 2])
+        plt.xlim([frame_time[0], frame_time[-1]])
         plt.grid()
         plt.savefig(args.figure_fl,
                     DPI=300)
