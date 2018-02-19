@@ -39,3 +39,19 @@ $ ./bin/rmsd \
 ```
 
 The script supports specifying keywords `all`, `heavy`, `minimal`, `alpha`, and `water` for atom groups or a valid MDTraj [atom select expression](http://mdtraj.org/1.9.0/atom_selection.html).
+
+### Component Analysis
+The `component-analysis` module performs feature extraction, dimensionality reduction, and facilitates analysis of the resulting components. Supported dimensionality reduction (decomposition) methods include [PCA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html), [SVD](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html), [ICA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html), and [tICA](http://msmbuilder.org/3.8.0/decomposition.html#tica). If deciding between the methods, tICA performed on `transformed-dihedrals` (sine and cosines of dihedral phi and psi angles) is most likely best suited for your needs.
+
+```bash
+$ ./bin/component-analysis \
+    train-model \
+    --n-components <n-components> \
+    --pdb-file <pdb-file> \
+    --input-traj <dcd-file> \
+    --model-file <trained-model> \
+    --feature-type <feature-type> \
+    --lag-time <lag-time>
+```
+
+Supported analyses include explained variance ratios (PCA), timescales (tICA), heatmap of projections (all methods), and timeseries of projected coordinates (all methods).
