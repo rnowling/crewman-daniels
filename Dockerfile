@@ -26,10 +26,10 @@ WORKDIR /opt/bats
 RUN ./install.sh /usr/local
 
 COPY . /opt/crewman-daniels
-WORKDIR /opt/creman-daniels
+WORKDIR /opt/crewman-daniels
 # workaround pip trying to install everything at once
 # instead of in-order and failing
-RUN pip install mdtraj>=1.9.0
+RUN pip install mdtraj
 RUN pip install --requirement /opt/crewman-daniels/requirements.txt
 ENV PATH="/opt/crewman-daniels/bin:${PATH}"
 
