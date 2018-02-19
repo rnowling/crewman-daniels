@@ -52,8 +52,6 @@ def plot_rmsd(args):
                     atom_indices=rmsd_atoms,
                     ref_atom_indices=rmsd_atoms)
 
-    print rmsds.shape, traj.n_frames
-
     frame_time = np.arange(1, traj.n_frames + 1) * args.timestep
     if args.figure_fl:
         plt.clf()
