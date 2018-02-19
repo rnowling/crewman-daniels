@@ -23,3 +23,19 @@ $ make test
 ```
 
 Note that you will need to have the Git [Large File Storage](https://git-lfs.github.com/) plugin installed to download the data.  To run the tests, you will need to have [bats](https://github.com/sstephenson/bats) installed.
+
+## Tools
+
+### Root-Mean-Square Deviation (RMSD)
+RMSD can be calculated using the `rmsd` script:
+
+```bash
+$ ./bin/rmsd \
+    --timestep <timestep-in-ns> \
+    --pdb-file <pdb-file> \
+    --input-traj <dcd-file> \
+    --figure-fl <rmsd.png> \
+    --output-tsv <rmsd.tsv>
+```
+
+The script supports specifying keywords `all`, `heavy`, `minimal`, `alpha`, and `water` for atom groups or a valid MDTraj [atom select expression](http://mdtraj.org/1.9.0/atom_selection.html).
