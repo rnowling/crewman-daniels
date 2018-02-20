@@ -17,6 +17,8 @@ RUN apt-get update && \
             cython \
             make \
             curl \
+            graphviz \
+            python-pydot \
 	    && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
