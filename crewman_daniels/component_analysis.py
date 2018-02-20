@@ -107,6 +107,12 @@ def extract_features(args):
                               chi_sin,
                               chi_cos])
 
+    elif args.feature_type == "residue-residue-distances":
+        print "computing residue-residue distances"
+        features, _ = md.compute_contacts(traj,
+                                          scheme="ca",
+                                          periodic=False)
+
     else:
         raise Exception, "Unknown feature type '%s'", args.features
 
@@ -296,7 +302,8 @@ def parseargs():
                              required=True,
                              choices=["positions",
                                       "transformed-dihedrals",
-                                      "transformed-dihedrals-chi"],
+                                      "transformed-dihedrals-chi",
+                                      "residue-residue-distances"],
                              help="feature-type")
 
     comp_parser.add_argument("--model",
