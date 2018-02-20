@@ -45,6 +45,21 @@ def extract_features(args):
     traj = md.load(args.input_traj,
                    top=args.pdb_file)
 
+    if args.select_residues:
+        selections = []
+        ranges = args.select_residues.split(",")
+        for range_ in args.select_residues.split(","):
+            if "-" in range_:
+                left, right = map(int, range_.split("-"))
+                selections.append("(residue %s to %s)" % (left, right))
+            else:
+                singleton = int(range_)
+                selections.append("(residue %s)" % singleton)
+
+        selection_str = " or ".join(selections)
+        selected_atoms = traj.topology.select(selection_str)
+        traj = traj.atom_slice(selected_atoms)
+
     if args.feature_type == "positions":
         print "aligning frames"
         traj.superpose(traj)
@@ -297,6 +312,11 @@ def parseargs():
                              type=int,
                              default=1,
                              help="Subsample trajectory")
+
+    comp_parser.add_argument("--select-residues",
+                             type=str,
+                             default=None,
+                             help="Specify subset of residues")
     
     eva_parser = subparsers.add_parser("explained-variance-analysis",
                                        help="Plot explained variances of PCs")
