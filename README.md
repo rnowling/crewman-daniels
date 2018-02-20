@@ -12,6 +12,7 @@ Similary, `crewman-daniels` is a set of tools that help with analyzing the times
 * [MDTraj](http://mdtraj.org)
 * [Scikit-learn](http://scikit-learn.org/stable/)
 * [MSMBuilder](http://msmbuilder.org)
+* [NetworkX](https://networkx.github.io/)
 * Numpy/Scipy/Matplotlib
 * Seaborn
 
