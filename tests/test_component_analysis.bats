@@ -182,6 +182,47 @@ load setup_helper
     [ -e "${TEST_TEMP_DIRNAME}/projected_timeseries_0_1.png" ]
 }
 
+@test "component-analysis: Train PCA model, inverse-residue-residue distances" {
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        train-model \
+        --n-components 2 \
+        --pdb-file ${PDB_FILE} \
+        --input-traj ${DCD_FILE} \
+        --feature-type inverse-residue-residue-distances \
+        --model PCA \
+        --lag-time 1 \
+        --model-file ${TEST_TEMP_DIRNAME}/pca_res-res-dist.pkl
+
+    [ "$status" -eq 0 ]
+    [ -e "${TEST_TEMP_DIRNAME}/pca_res-res-dist.pkl" ]
+    
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        explained-variance-analysis \
+        --model-file ${TEST_TEMP_DIRNAME}/pca_res-res-dist.pkl \
+        --figures-dir ${TEST_TEMP_DIRNAME}
+
+    [ "$status" -eq 0 ]
+    [ -e "${TEST_TEMP_DIRNAME}/explained_variance_ratios.png" ]
+    
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        plot-projections \
+        --figures-dir ${TEST_TEMP_DIRNAME} \
+        --pairs 0 1 \
+        --model-file ${TEST_TEMP_DIRNAME}/pca_res-res-dist.pkl
+
+    [ "$status" -eq 0 ]
+    [ -e "${TEST_TEMP_DIRNAME}/component_projection_0_1.png" ]
+
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        plot-projected-timeseries \
+        --figures-dir ${TEST_TEMP_DIRNAME} \
+        --dimensions 0 1 \
+        --model-file ${TEST_TEMP_DIRNAME}/pca_res-res-dist.pkl
+
+    [ "$status" -eq 0 ]    
+    [ -e "${TEST_TEMP_DIRNAME}/projected_timeseries_0_1.png" ]
+}
+
 @test "component-analysis: Train SVD model, dihedrals" {
     run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
         train-model \
@@ -471,6 +512,48 @@ load setup_helper
         --pdb-file ${PDB_FILE} \
         --input-traj ${DCD_FILE} \
         --feature-type residue-residue-distances \
+        --model tICA \
+        --lag-time 1 \
+        --model-file ${TEST_TEMP_DIRNAME}/tica_res-res-dist.pkl
+
+    [ "$status" -eq 0 ]
+    [ -e "${TEST_TEMP_DIRNAME}/tica_res-res-dist.pkl" ]
+    
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        timescale-analysis \
+        --timestep 0.01 \
+        --figures-dir ${TEST_TEMP_DIRNAME} \
+        --model-file ${TEST_TEMP_DIRNAME}/tica_res-res-dist.pkl
+
+    [ "$status" -eq 0 ]
+    [ -e "${TEST_TEMP_DIRNAME}/timescales.png" ]
+    
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        plot-projections \
+        --figures-dir ${TEST_TEMP_DIRNAME} \
+        --pairs 0 1 \
+        --model-file ${TEST_TEMP_DIRNAME}/tica_res-res-dist.pkl
+
+    [ "$status" -eq 0 ]    
+    [ -e "${TEST_TEMP_DIRNAME}/component_projection_0_1.png" ]
+
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        plot-projected-timeseries \
+        --figures-dir ${TEST_TEMP_DIRNAME} \
+        --dimensions 0 1 \
+        --model-file ${TEST_TEMP_DIRNAME}/tica_res-res-dist.pkl
+
+    [ "$status" -eq 0 ]    
+    [ -e "${TEST_TEMP_DIRNAME}/projected_timeseries_0_1.png" ]
+}
+
+@test "component-analysis: Train tICA model, inverse-residue-residue-distances" {
+    run ${BATS_TEST_DIRNAME}/../bin/component-analysis \
+        train-model \
+        --n-components 2 \
+        --pdb-file ${PDB_FILE} \
+        --input-traj ${DCD_FILE} \
+        --feature-type inverse-residue-residue-distances \
         --model tICA \
         --lag-time 1 \
         --model-file ${TEST_TEMP_DIRNAME}/tica_res-res-dist.pkl

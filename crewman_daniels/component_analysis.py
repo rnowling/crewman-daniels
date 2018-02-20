@@ -113,6 +113,13 @@ def extract_features(args):
                                           scheme="ca",
                                           periodic=False)
 
+    elif args.feature_type == "inverse-residue-residue-distances":
+        print "computing inverse residue-residue distances"
+        features, _ = md.compute_contacts(traj,
+                                          scheme="ca",
+                                          periodic=False)
+        features = np.reciprocal(features)
+        
     else:
         raise Exception, "Unknown feature type '%s'", args.features
 
@@ -303,7 +310,8 @@ def parseargs():
                              choices=["positions",
                                       "transformed-dihedrals",
                                       "transformed-dihedrals-chi",
-                                      "residue-residue-distances"],
+                                      "residue-residue-distances",
+                                      "inverse-residue-residue-distances"],
                              help="feature-type")
 
     comp_parser.add_argument("--model",
