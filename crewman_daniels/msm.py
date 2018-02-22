@@ -428,6 +428,7 @@ def plot_dihedral_distributions(args):
             H_T = H.T
             vmin = 0.0
             vmax = 1.0
+            plt.clf()
             plt.pcolor(H_T, vmin=vmin, vmax=vmax)
             plt.xlabel("Phi", fontsize=16)
             plt.ylabel("Psi", fontsize=16)
