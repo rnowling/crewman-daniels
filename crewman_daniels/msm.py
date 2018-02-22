@@ -111,7 +111,7 @@ class MarkovModel(object):
 
         print 
         print "before filtering"
-        print self.sym_counts.astype(int32)
+        print self.sym_counts.astype(np.int32)
         
         # filter very low probability edges
         totals = self.sym_counts.sum(axis=1)
@@ -124,7 +124,7 @@ class MarkovModel(object):
 
         print
         print "after filtering"
-        print self.sym_counts
+        print self.sym_counts.astype(np.int32)
         print
         
         # normalize columns
