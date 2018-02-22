@@ -222,7 +222,8 @@ def plot_fluxes(args):
         plt.clf()
         nx.draw_networkx(G,
                          pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
-                         alpha=0.7,
+                         alpha=0.8,
+                         ax = plt.gca(),
                          cmap=plt.get_cmap('jet'),
                          node_color=colors,
                          node_size=node_size,
