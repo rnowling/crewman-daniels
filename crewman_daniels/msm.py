@@ -220,6 +220,9 @@ def plot_fluxes(args):
         colors = msm.v[:, i]
 
         plt.clf()
+        # hide axes ticks
+        plt.gca().set_xticks([])
+        plt.gca().set_yticks([])
         nx.draw_networkx(G,
                          pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
                          alpha=0.8,
