@@ -388,6 +388,77 @@ def compare_dihedral_distributions(args):
                         fl.write("%s\t%s\n" % (resid, pvalue))
 
 
+def plot_dihedral_distributions(args):
+    msm = joblib.load(args.msm_model_file)
+
+    print "reading trajectory"
+    traj = md.load(args.input_traj,
+                   top=args.pdb_file)
+
+    print "computing dihedrals"
+    _, phi_angles = md.compute_phi(traj,
+                                   periodic=False)
+    _, psi_angles = md.compute_psi(traj,
+                                   periodic=False)
+    # first residue has no phi angle
+    # last residue has no psi angle
+    # so we only have pairs for residues 1 to n - 2
+    angles = np.stack([phi_angles[:, :-1],
+                       psi_angles[:, 1:]],
+                      axis=2)
+
+    # 1-based indexing
+    resids = range(2, traj.n_residues)
+
+    if not args.select_residues:
+        selected_resides = set(resids)
+    else:
+        selected_residues = set()
+        for range_ in args.select_residues.split(","):
+            if "-" in range_:
+                left, right = range_.split("-")
+                selected_residues.update(xrange(int(left), int(right) + 1))
+            else:
+                selected_residues.add(int(range_))
+
+    for state_id in xrange(msm.n_states):
+        state_frames = [idx for idx, state in enumerate(msm.labels) \
+                        if state == state_id]
+        state_angles = angles[state_frames, :, :]
+        
+        n_residues = state_angles.shape[1]
+        bins = np.linspace(-np.pi, np.pi, num=args.n_bins + 1)
+        
+        for i, resid in enumerate(resids):
+            if resid not in selected_residues:
+                continue
+            
+            H, xedges, yedges = np.histogram2d(state_angles[:, i, 0],
+                                               state_angles[:, i, 1],
+                                               bins=[bins, bins])
+            H /= np.sum(H)
+            
+            H_T = H.T
+            vmin = 0.0
+            vmax = 1.0
+            plt.clf()
+            plt.pcolor(H_T, vmin=vmin, vmax=vmax)
+            plt.xlabel("Phi", fontsize=16)
+            plt.ylabel("Psi", fontsize=16)
+            x_ticks = [round(f, 1) for f in xedges]
+            y_ticks = [round(f, 1) for f in yedges]
+            plt.xticks(np.arange(H_T.shape[0] + 1)[::2], x_ticks[::2])
+            plt.yticks(np.arange(H_T.shape[1] + 1)[::2], y_ticks[::2])
+            plt.xlim([0.0, H_T.shape[0]])
+            plt.ylim([0.0, H_T.shape[1]])
+            plt.tight_layout()
+                 
+            fig_flname = os.path.join(args.figures_dir,
+                                      "dihedrals_%s_%s.png" % (resid, state_id))
+            plt.savefig(fig_flname,
+                        DPI=300)
+
+                        
 def parseargs():
     parser = argparse.ArgumentParser()
 
@@ -561,6 +632,38 @@ def parseargs():
                                        choices=["phi-psi",
                                                 "chi"],
                                        help="Type of dihedrals to test")
+
+    draw_dihedrals_parser = subparsers.add_parser("draw-dihedral-distributions",
+                                                  help="Draw dihedral distributions")
+
+    draw_dihedrals_parser.add_argument("--msm-model-file",
+                                       type=str,
+                                       required=True,
+                                       help="File from which to load MSM model")
+
+    draw_dihedrals_parser.add_argument("--figures-dir",
+                                       type=str,
+                                       required=True,
+                                       help="Figures dir")
+
+    draw_dihedrals_parser.add_argument("--pdb-file",
+                                       type=str,
+                                       required=True,
+                                       help="PDB file")
+
+    draw_dihedrals_parser.add_argument("--input-traj",
+                                       type=str,
+                                       required=True,
+                                       help="Input trajectory")
+
+    draw_dihedrals_parser.add_argument("--n-bins",
+                                       type=int,
+                                       default=10,
+                                       help="Number of bins to use in each dimension")
+
+    draw_dihedrals_parser.add_argument("--select-residues",
+                                       type=str,
+                                       help="Select subset of residues")
     
     return parser.parse_args()
 
@@ -582,6 +685,8 @@ if __name__ == "__main__":
         plot_state_timeseries(args)
     elif args.mode == "test-state-dihedrals":
         compare_dihedral_distributions(args)
+    elif args.mode == "draw-dihedral-distributions":
+        plot_dihedral_distributions(args)
     else:
         print "Unknown mode '%s'" % args.mode
         sys.exit(1)

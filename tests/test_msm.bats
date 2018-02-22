@@ -86,14 +86,27 @@ load setup_helper
     [ "$status" -eq 0 ]    
     [ -e "${TEST_TEMP_DIRNAME}/msm_timeseries.png" ]
 
-    # run ${BATS_TEST_DIRNAME}/../bin/msm \
-    #     test-state-dihedrals \
-    #     --output-dir ${TEST_TEMP_DIRNAME} \
-    #     --msm-model-file ${TEST_TEMP_DIRNAME}/msm.pkl \
-    #     --pdb-file $PDB_FILE \
-    #     --input-traj $DCD_FILE \
-    #     --angle-type phi-psi
+    run ${BATS_TEST_DIRNAME}/../bin/msm \
+        draw-dihedral-distributions \
+        --figures-dir ${TEST_TEMP_DIRNAME} \
+        --msm-model-file ${TEST_TEMP_DIRNAME}/msm.pkl \
+        --pdb-file $PDB_FILE \
+        --input-traj $DCD_FILE \
+        --select-residues 2-5
 
-    # [ "$status" -eq 0 ]  
-    # [ -e "${TEST_TEMP_DIRNAME}/state_dihedral_tests_phi-psi_0_1.png" ]
+    [ "$status" -eq 0 ]  
+    [ -e "${TEST_TEMP_DIRNAME}/dihedrals_2_0.png" ]
+
+    run ${BATS_TEST_DIRNAME}/../bin/msm \
+        draw-dihedral-distributions \
+        --figures-dir ${TEST_TEMP_DIRNAME} \
+        --msm-model-file ${TEST_TEMP_DIRNAME}/msm.pkl \
+        --pdb-file $PDB_FILE \
+        --input-traj $DCD_FILE \
+        --select-residues 2-5 \
+        --n-bins 18
+
+    [ "$status" -eq 0 ]  
+    [ -e "${TEST_TEMP_DIRNAME}/dihedrals_2_0.png" ]
+
 }
