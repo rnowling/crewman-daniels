@@ -213,27 +213,20 @@ def plot_fluxes(args):
     msm = joblib.load(args.msm_model_file)
     G = nx.DiGraph(msm.transitions)
     n_fluxes = msm.v.shape[-1]
-    default_size = 300.0
-    node_size = []
-    expected = 1.0 / msm.n_states
-    for p in msm.equilibrium_dist:
-        node_size.append(default_size * (p / expected))
+    default_size = 5000.0
+    node_size = default_size * msm_equilibrium_dist
+        
     for i in xrange(n_fluxes):
-        colors = []
-        for j in xrange(msm.n_states):
-            if msm.v[j, i] >= 0.0:
-                colors.append(0.9)
-            else:
-                colors.append(0.1)
+        colors = msm.v[:, i]
+
         plt.clf()
-        nx.draw(G,
-                pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
-                cmap=plt.get_cmap('Vega20c'),
-                node_color=colors,
-                node_size=node_size,
-                vmin=0.0,
-                vmax=1.0,
-                with_labels=True)
+        nx.draw_networkx,(G,
+                          pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
+                          alpha=0.7,
+                          cmap=plt.get_cmap('jet'),
+                          node_color=colors,
+                          node_size=node_size,
+                          with_labels=True)
         flname = os.path.join(args.figures_dir,
                               "flux_%s.png" % (i + 1))
         plt.savefig(flname,
