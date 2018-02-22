@@ -107,7 +107,7 @@ class MarkovModel(object):
         print counts.astype(np.int32)
 
         # force symmetry
-        self.sym_counts = 0.5 * (counts + counts.T)
+        self.sym_counts = 2 * (counts + counts.T)
 
         print 
         print "before filtering"
