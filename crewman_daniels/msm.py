@@ -220,13 +220,13 @@ def plot_fluxes(args):
         colors = msm.v[:, i]
 
         plt.clf()
-        nx.draw_networkx,(G,
-                          pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
-                          alpha=0.7,
-                          cmap=plt.get_cmap('jet'),
-                          node_color=colors,
-                          node_size=node_size,
-                          with_labels=True)
+        nx.draw_networkx(G,
+                         pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
+                         alpha=0.7,
+                         cmap=plt.get_cmap('jet'),
+                         node_color=colors,
+                         node_size=node_size,
+                         with_labels=True)
         flname = os.path.join(args.figures_dir,
                               "flux_%s.png" % (i + 1))
         plt.savefig(flname,
