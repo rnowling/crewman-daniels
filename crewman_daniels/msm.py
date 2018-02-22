@@ -109,6 +109,19 @@ class MarkovModel(object):
         # force symmetry
         self.sym_counts = 0.5 * (counts + counts.T)
 
+        print self.sym_counts
+        
+        # filter very low probability edges
+        totals = self.sym_counts.sum(axis=1)
+        for i in enumerate(self.n_states - 1):
+            for j in enumerate(i + 1, self.n_states):
+                if self.sym_counts[i, j] < 0.01 * totals[j] and \
+                   self.sym_counts[i, j] < 0.01 * totals[i]:
+                    self.sym_counts[i, j] = 0
+                    self.sym_counts[j, i] = 0
+
+        print self.sym_counts
+        
         # normalize columns
         self.transitions = self.sym_counts / self.sym_counts.sum(axis=1)[:, None]
 
