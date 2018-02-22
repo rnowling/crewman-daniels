@@ -214,7 +214,7 @@ def plot_fluxes(args):
     G = nx.DiGraph(msm.transitions)
     n_fluxes = msm.v.shape[-1]
     default_size = 5000.0
-    node_size = default_size * msm_equilibrium_dist
+    node_size = default_size * msm.equilibrium_dist
         
     for i in xrange(n_fluxes):
         colors = msm.v[:, i]
