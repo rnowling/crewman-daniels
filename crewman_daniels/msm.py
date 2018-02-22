@@ -113,8 +113,8 @@ class MarkovModel(object):
         
         # filter very low probability edges
         totals = self.sym_counts.sum(axis=1)
-        for i in enumerate(self.n_states - 1):
-            for j in enumerate(i + 1, self.n_states):
+        for i in xrange(self.n_states - 1):
+            for j in xrange(i + 1, self.n_states):
                 if self.sym_counts[i, j] < 0.01 * totals[j] and \
                    self.sym_counts[i, j] < 0.01 * totals[i]:
                     self.sym_counts[i, j] = 0
