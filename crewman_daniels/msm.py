@@ -288,7 +288,7 @@ def plot_msm_network(args):
     edge_weights = [50. * data["weight"] for (s, t, data) in G.edges(data=True)]
         
     nx.draw(G,
-            pos=nx.spring_layout(G), #nx.nx_pydot.pydot_layout(G, prog="neato"),
+            pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
             node_size=node_size,
             arrows=False,
             with_labels=True,
