@@ -3,4 +3,5 @@ matplotlib>=2.0
 mdtraj>=1.9.0
 msmbuilder>=3.8.0
 networkx>=2.1
+pydot>=1.2.3
 
