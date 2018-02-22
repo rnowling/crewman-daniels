@@ -254,7 +254,7 @@ def plot_msm_network(args):
 
     G = nx.DiGraph(msm.transitions)
     
-    default_size = 300.0
+    default_size = 500.0
     node_size = []
     if args.scale_size == "observed-populations":
         total = msm.obs_pop_counts.sum()
@@ -267,13 +267,14 @@ def plot_msm_network(args):
     else:
         node_size = None
 
+    edge_weights = [50. * data["weight"] for (s, t, data) in G.edges(data=True)]
+        
     nx.draw(G,
             pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
             node_size=node_size,
-            arrowstyle="->",
+            arrows=False,
             with_labels=True,
-            vmin=0.0,
-            vmax=1.0,
+            width=edge_weights,
             node_color=[0.9] * nx.number_of_nodes(G),
             cmap=plt.get_cmap("Vega20c"))
 
