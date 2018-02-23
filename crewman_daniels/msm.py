@@ -281,10 +281,9 @@ def plot_msm_network(args):
     plt.savefig(args.figure_fl,
                 DPI=300)
 
-def test_residue_dihedral_distributions(data_1, data_2):
+def test_residue_dihedral_distributions(data_1, data_2, n_bins):
     n_dim = data_1.shape[2]
     n_residues = data_1.shape[1]
-    n_bins = 10
     bins = np.linspace(-np.pi, np.pi, num=n_bins + 1)
     bin_spec = [bins] * n_dim
 
@@ -371,7 +370,8 @@ def compare_dihedral_distributions(args):
                 state_2_angles = angles[state_2_frames, :, :]
 
                 pvalues = test_residue_dihedral_distributions(state_1_angles,
-                                                              state_2_angles)
+                                                              state_2_angles,
+                                                              args.n_bins)
 
                 if len(pvalues) != len(resids):
                     raise Exception("Number of residue ids (%s) and p-values (%s) mismatched" % (len(resids), len(pvalues)))
@@ -626,6 +626,11 @@ def parseargs():
                                        required=True,
                                        help="Input trajectory")
 
+    state_dihedral_parser.add_argument("--n-bins",
+                                       type=int,
+                                       default=10,
+                                       help="Number of bins to use")
+    
     state_dihedral_parser.add_argument("--angle-type",
                                        type=str,
                                        required=True,
