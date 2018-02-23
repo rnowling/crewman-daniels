@@ -360,32 +360,30 @@ def compare_dihedral_distributions(args):
         state_1_angles = angles[state_1_frames, :, :]
 
         for state_2 in xrange(state_1 + 1, msm.n_states):
-            
-            if msm.sym_counts[state_1, state_2] > 0:
-                print "Testing State %s vs State %s" % (state_1, state_2)
+            print "Testing State %s vs State %s" % (state_1, state_2)
 
-                state_2_frames = [idx for idx, state in enumerate(msm.labels) \
-                                  if state == state_2]
+            state_2_frames = [idx for idx, state in enumerate(msm.labels) \
+            if state == state_2]
 
-                state_2_angles = angles[state_2_frames, :, :]
+            state_2_angles = angles[state_2_frames, :, :]
 
-                pvalues = test_residue_dihedral_distributions(state_1_angles,
-                                                              state_2_angles,
-                                                              args.n_bins)
+            pvalues = test_residue_dihedral_distributions(state_1_angles,
+                                                          state_2_angles,
+                                                          args.n_bins)
 
-                if len(pvalues) != len(resids):
-                    raise Exception("Number of residue ids (%s) and p-values (%s) mismatched" % (len(resids), len(pvalues)))
+            if len(pvalues) != len(resids):
+                raise Exception("Number of residue ids (%s) and p-values (%s) mismatched" % (len(resids), len(pvalues)))
                 
-                residue_pvalues = zip(resids,
-                                      pvalues)
+            residue_pvalues = zip(resids,
+                                  pvalues)
 
-                flname = os.path.join(args.output_dir,
-                                      "state_dihedral_tests_%s_%s_%s.tsv" % (args.angle_type,
-                                                                             state_1,
-                                                                             state_2))
-                with open(flname, "w") as fl:
-                    for resid, pvalue in residue_pvalues:
-                        fl.write("%s\t%s\n" % (resid, pvalue))
+            flname = os.path.join(args.output_dir,
+                                  "state_dihedral_tests_%s_%s_%s.tsv" % (args.angle_type,
+                                                                         state_1,
+                                                                         state_2))
+            with open(flname, "w") as fl:
+                for resid, pvalue in residue_pvalues:
+                    fl.write("%s\t%s\n" % (resid, pvalue))
 
 
 def plot_dihedral_distributions(args):
