@@ -267,14 +267,11 @@ def plot_msm_network(args):
     else:
         node_size = None
 
-    edge_weights = [50. * data["weight"] for (s, t, data) in G.edges(data=True)]
-        
     nx.draw(G,
             pos=nx.nx_pydot.pydot_layout(G, prog="neato"),
             node_size=node_size,
             arrows=False,
             with_labels=True,
-            width=edge_weights,
             node_color=[0.9] * nx.number_of_nodes(G),
             cmap=plt.get_cmap("Vega20c"))
 
