@@ -27,6 +27,17 @@ Note that you will need to have the Git [Large File Storage](https://git-lfs.git
 
 ## Tools
 
+### Strip Water and PBC
+Many of the tools in Crewman Daniels were originally written for implicit-solvent simulations.  As a consequence, they do not properly handle periodic boundary conditions (PBC).  As a consequence, to apply the tools to explicit solvent simulations, we need to strip the waters and center the protein within the box.  We provide a script to help with this:
+
+```bash
+$ ./bin/strip-water-pbc \
+    --input-pdb <pdb-file> \
+    --input-traj <dcd-file> \
+    --output-pdb <pdb-file> \
+    --output-traj <dcd-file>
+```
+
 ### Root-Mean-Square Deviation (RMSD)
 RMSD can be calculated using the `rmsd` script:
 
