@@ -65,6 +65,17 @@ $ ./bin/angular-rmsf \
 
 Angular RMSF is less sensitive to rotation and translation of subunits versus RMSF calculated from XYZ coordinates of alpha carbons.
 
+### End-to-End Distance
+Find box containing selected atoms and calculate length of the hypotenuse:
+
+```bash
+$ ./bin/end-to-end-distance \
+    --pdb-file <pdb-file> \
+    --input-traj <dcd-file> \
+    --timestep <elapsed-time-between-frames-in-ns> \
+    --figure-fl <rmsd.png>
+```
+
 ### Component Analysis
 The `component-analysis` module performs feature extraction, dimensionality reduction, and facilitates analysis of the resulting components. Supported dimensionality reduction (decomposition) methods include [PCA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html), [SVD](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html), [ICA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html), and [tICA](http://msmbuilder.org/3.8.0/decomposition.html#tica). If deciding between the methods, tICA performed on `transformed-dihedrals` (sine and cosines of dihedral phi and psi angles) is most likely best suited for your needs.
 

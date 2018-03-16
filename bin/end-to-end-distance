@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+BINPATH=`dirname $0`
+python "$BINPATH/../crewman_daniels/end_to_end_distance.py" "$@"
