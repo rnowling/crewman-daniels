@@ -229,27 +229,17 @@ def plot_projections(args):
     model = joblib.load(args.model_file)
     projected = model[PROJECTION_KEY]
 
+    # avoid affecting styles of other plots
+    import seaborn as sns
+    
     for p1, p2 in pairwise(args.pairs):
-        H, xedges, yedges = np.histogram2d(projected[:, p1],
-                                           projected[:, p2],
-                                           bins=30)
-        H_T = H.T
-        vmin = np.min(np.min(H_T))
-        vmax = np.max(np.max(H_T))
-        plt.pcolor(H_T, vmin=vmin, vmax=vmax)
+        plt.clf()
+        sns.kdeplot(projected[:, p1],
+                    projected[:, p2])
         plt.xlabel("Component %s" % p1, fontsize=16)
         plt.ylabel("Component %s" % p2, fontsize=16)
-        x_ticks = [round(f, 1) for f in xedges]
-        y_ticks = [round(f, 1) for f in yedges]
-        plt.xticks(np.arange(H_T.shape[0] + 1)[::2], x_ticks[::2])
-        plt.yticks(np.arange(H_T.shape[1] + 1)[::2], y_ticks[::2])
-        plt.xlim([0.0, H_T.shape[0]])
-        plt.ylim([0.0, H_T.shape[1]])
-        #plt.gca().invert_xaxis()
-        #plt.gca().invert_yaxis()
         plt.tight_layout()
-        #plt.colorbar()
-        
+
         fig_flname = os.path.join(args.figures_dir,
                                   "component_projection_%s_%s.png" % (str(p1), str(p2)))
         plt.savefig(fig_flname,
