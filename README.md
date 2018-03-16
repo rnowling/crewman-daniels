@@ -52,6 +52,19 @@ $ ./bin/rmsd \
 
 The script supports specifying keywords `all`, `heavy`, `minimal`, `alpha`, and `water` for atom groups or a valid MDTraj [atom select expression](http://mdtraj.org/1.9.0/atom_selection.html).
 
+### Angular Root-Mean-Square Fluctuation (RMSF)
+Angular RMSF calculated from the phi and psi dihedral angles can be calculated with:
+
+```bash
+$ ./bin/angular-rmsf \
+    --pdb-file <pdb-file> \
+    --input-traj <dcd-file> \
+    --figure-fl <rmsd.png> \
+    --output-tsv <rmsd.tsv>
+```
+
+Angular RMSF is less sensitive to rotation and translation of subunits versus RMSF calculated from XYZ coordinates of alpha carbons.
+
 ### Component Analysis
 The `component-analysis` module performs feature extraction, dimensionality reduction, and facilitates analysis of the resulting components. Supported dimensionality reduction (decomposition) methods include [PCA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html), [SVD](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html), [ICA](http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FastICA.html), and [tICA](http://msmbuilder.org/3.8.0/decomposition.html#tica). If deciding between the methods, tICA performed on `transformed-dihedrals` (sine and cosines of dihedral phi and psi angles) is most likely best suited for your needs.
 
