@@ -87,7 +87,7 @@ $ ./bin/component-analysis \
     --input-traj <dcd-file> \
     --model-file <trained-model> \
     --feature-type <feature-type> \
-    --lag-time <lag-time>
+    --model <model-type>
 ```
 
 Supported analyses include explained variance ratios (PCA), timescales (tICA), heatmap of projections (all methods), and timeseries of projected coordinates (all methods).
